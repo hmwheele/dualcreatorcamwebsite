@@ -59,17 +59,6 @@ Search the project for these placeholders and replace:
 - `hello@dualcreatorcam.com` → your real support email if different.
 - `2026 Harrison Wheeler` in the footer if you want a different copyright line.
 
-## Phone mockup placeholder
-
-The home hero contains a CSS-rendered phone mockup as a placeholder. To replace it with a real screenshot of the app:
-
-1. Drop a PNG of an iPhone screenshot at `assets/phone-screen.png` (recommended size 672×1056 @2x for retina).
-2. In `index.html`, replace the `.phone` div with:
-   ```html
-   <img class="phone" src="/assets/phone-screen.png" alt="Dual Creator Cam app preview" />
-   ```
-3. In `assets/style.css`, find the `.hero--home .phone` rule and remove the gradient backgrounds — they only matter for the placeholder.
-
 ## Mobile
 
 The site is responsive at three breakpoints:
