@@ -1,0 +1,8 @@
+# robots.txt — Dual Creator Cam
+# https://dualcreatorcam.com
+
+User-agent: *
+Allow: /
+
+# Sitemap
+Sitemap: https://dualcreatorcam.com/sitemap.xml
