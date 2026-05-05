@@ -1,0 +1,594 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+<title>Dual Creator Cam — Vertical and horizontal video. One take.</title>
+<meta name="description" content="Record 9:16 vertical and 16:9 horizontal video in the same take. Built for creators who post everywhere. iPhone, paid, no subscriptions." />
+<meta property="og:title" content="Dual Creator Cam" />
+<meta property="og:description" content="Vertical and horizontal video. One take. Built for creators." />
+<meta property="og:type" content="website" />
+<meta name="theme-color" content="#000000" />
+<link rel="canonical" href="https://dualcreatorcam.app/" />
+<style>
+  :root {
+    /* Pulled from OnboardingView.swift */
+    --black: #000000;
+    --cream: #fffbe2;        /* onboard2/3/4 background */
+    --white: #ffffff;
+    --ink: #000000;
+    --ink-soft: rgba(0, 0, 0, 0.7);   /* matches the 70% description on permissions */
+    --ink-faint: rgba(0, 0, 0, 0.5);
+    --line-on-cream: rgba(0, 0, 0, 0.12);
+    --line-on-black: rgba(255, 255, 255, 0.18);
+    --paper-on-cream: #ffffff;
+  }
+  * { box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  body {
+    margin: 0;
+    background: var(--cream);
+    color: var(--ink);
+    font: 17px/1.55 -apple-system, BlinkMacSystemFont, "SF Pro Text", "SF Pro Display", system-ui, "Helvetica Neue", Helvetica, Arial, sans-serif;
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+  }
+  a { color: inherit; text-decoration: underline; text-decoration-thickness: 1px; text-underline-offset: 3px; }
+  .wrap { max-width: 1080px; margin: 0 auto; padding: 0 22px; }
+
+  /* ---- nav (black bar, mirrors onboard1) ---- */
+  nav.top {
+    position: sticky; top: 0; z-index: 10;
+    background: var(--black);
+    color: var(--white);
+    border-bottom: 1px solid var(--line-on-black);
+  }
+  nav.top .wrap { display: flex; align-items: center; justify-content: space-between; padding-top: 16px; padding-bottom: 16px; }
+  nav.top .brand {
+    font-size: 14px;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+  nav.top ul {
+    display: flex; gap: 28px; list-style: none; margin: 0; padding: 0;
+  }
+  nav.top ul a {
+    color: rgba(255, 255, 255, 0.75);
+    font-size: 13px;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    text-decoration: none;
+    font-weight: 600;
+  }
+  nav.top ul a:hover { color: #fff; }
+  @media (max-width: 540px) { nav.top ul { gap: 18px; } nav.top ul a { font-size: 12px; } }
+
+  /* ---- shared button styles (mirrors onboarding's 1pt outline / 4pt radius) ---- */
+  .btn-outline {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    padding: 17px 32px;
+    border: 1px solid currentColor;
+    border-radius: 4px;
+    font-size: 16px;
+    font-weight: 700;
+    letter-spacing: 0.02em;
+    text-transform: none;
+    text-decoration: none;
+    background: transparent;
+    transition: opacity 0.2s ease, transform 0.15s ease;
+    cursor: pointer;
+  }
+  .btn-outline:hover { opacity: 0.7; }
+  .btn-outline:active { transform: translateY(1px); }
+  .btn-outline.dark { color: var(--ink); }
+  .btn-outline.light { color: var(--white); }
+
+  /* ---- hero (mirrors onboard1: black canvas, white type, white outline CTA) ---- */
+  header.hero {
+    background: var(--black);
+    color: var(--white);
+    padding: 96px 0 96px;
+  }
+  header.hero .eyebrow {
+    font-size: 13px;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: rgba(255, 255, 255, 0.6);
+    margin-bottom: 24px;
+  }
+  header.hero h1 {
+    font-size: clamp(36px, 7.4vw, 72px);
+    line-height: 1.05;
+    letter-spacing: -0.01em;
+    margin: 0 0 20px;
+    max-width: 16ch;
+    font-weight: 700;
+    text-transform: uppercase;
+  }
+  header.hero p.tagline {
+    font-size: clamp(18px, 2.2vw, 22px);
+    color: rgba(255, 255, 255, 0.78);
+    max-width: 38ch;
+    margin: 0 0 40px;
+    line-height: 1.45;
+  }
+  header.hero .cta-row {
+    display: flex; gap: 16px; flex-wrap: wrap; align-items: center;
+  }
+  header.hero .price {
+    color: rgba(255, 255, 255, 0.6);
+    font-size: 14px;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+  }
+  header.hero .price strong { color: #fff; font-weight: 700; }
+  header.hero .meta {
+    margin-top: 36px;
+    font-size: 13px;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: rgba(255, 255, 255, 0.45);
+  }
+
+  /* ---- generic section spacing ---- */
+  section { padding: 96px 0; }
+  section h2.eyebrow {
+    font-size: 13px;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--ink-soft);
+    margin: 0 0 16px;
+  }
+  section h2.section-title {
+    font-size: clamp(28px, 4vw, 44px);
+    line-height: 1.1;
+    letter-spacing: -0.01em;
+    margin: 0 0 16px;
+    font-weight: 700;
+    text-transform: uppercase;
+    max-width: 18ch;
+  }
+  section .lede {
+    color: var(--ink-soft);
+    max-width: 56ch;
+    font-size: 18px;
+    line-height: 1.55;
+    margin: 0 0 56px;
+  }
+
+  /* ---- features grid (cream section, white panels = onboard2-4 caption panels) ---- */
+  .features {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 16px;
+  }
+  @media (max-width: 720px) { .features { grid-template-columns: 1fr; } }
+  .feature {
+    background: var(--paper-on-cream);
+    border: 1px solid var(--line-on-cream);
+    border-radius: 4px;
+    padding: 32px 32px 36px;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+  }
+  .feature .num {
+    font-size: 13px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--ink-faint);
+    font-weight: 700;
+  }
+  .feature h3 {
+    font-size: clamp(20px, 2.6vw, 26px);
+    line-height: 1.15;
+    letter-spacing: -0.005em;
+    margin: 0;
+    font-weight: 700;
+    text-transform: uppercase;
+  }
+  .feature p {
+    margin: 0;
+    color: var(--ink-soft);
+    font-size: 16px;
+    line-height: 1.55;
+  }
+
+  /* ---- how it works (alternating: cream area + white panel mirrors tutorial layout) ---- */
+  section.how {
+    background: var(--cream);
+    padding-top: 0;
+  }
+  .steps {
+    background: var(--paper-on-cream);
+    border: 1px solid var(--line-on-cream);
+    border-radius: 4px;
+    padding: 8px;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1px;
+  }
+  @media (max-width: 720px) { .steps { grid-template-columns: 1fr; } }
+  .step {
+    padding: 28px;
+  }
+  .step .num {
+    font-size: 13px;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--ink-faint);
+    margin-bottom: 12px;
+  }
+  .step h3 {
+    font-size: 22px;
+    margin: 0 0 8px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: -0.005em;
+  }
+  .step p { margin: 0; color: var(--ink-soft); font-size: 15px; line-height: 1.55; }
+
+  /* ---- requirements row ---- */
+  .req {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1px;
+    background: var(--line-on-cream);
+    border: 1px solid var(--line-on-cream);
+    border-radius: 4px;
+    margin-top: 24px;
+    overflow: hidden;
+  }
+  @media (max-width: 720px) { .req { grid-template-columns: 1fr; } }
+  .req-item {
+    background: var(--paper-on-cream);
+    padding: 22px 24px;
+  }
+  .req-item .label {
+    font-size: 11px;
+    color: var(--ink-faint);
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    margin-bottom: 6px;
+    font-weight: 700;
+  }
+  .req-item .value {
+    font-weight: 700;
+    text-transform: uppercase;
+    font-size: 16px;
+  }
+
+  /* ---- legal / privacy / support docs ---- */
+  section.doc-section {
+    background: var(--cream);
+  }
+  .panel {
+    background: var(--paper-on-cream);
+    border: 1px solid var(--line-on-cream);
+    border-radius: 4px;
+    padding: 48px 56px;
+    max-width: 760px;
+  }
+  @media (max-width: 720px) { .panel { padding: 32px 24px; } }
+  .panel .updated {
+    color: var(--ink-faint);
+    font-size: 13px;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    margin-bottom: 24px;
+  }
+  .panel h3 {
+    font-size: 16px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    margin: 32px 0 8px;
+  }
+  .panel h3:first-child { margin-top: 0; }
+  .panel p { color: var(--ink-soft); margin: 0 0 12px; }
+  .panel ul { color: var(--ink-soft); padding-left: 20px; }
+  .panel li { margin: 6px 0; }
+  .panel table {
+    border-collapse: collapse;
+    width: 100%;
+    margin: 16px 0 24px;
+  }
+  .panel th, .panel td {
+    text-align: left;
+    padding: 14px 16px;
+    border-bottom: 1px solid var(--line-on-cream);
+    font-size: 15px;
+    vertical-align: top;
+  }
+  .panel th {
+    font-weight: 700;
+    background: var(--cream);
+    color: var(--ink);
+    font-size: 12px;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+  }
+  .panel td:first-child { font-weight: 700; color: var(--ink); width: 38%; }
+
+  .contact-card {
+    background: var(--cream);
+    border: 1px solid var(--line-on-cream);
+    border-radius: 4px;
+    padding: 28px 32px;
+    max-width: 460px;
+    margin: 24px 0 32px;
+  }
+  .contact-card .row {
+    display: flex; justify-content: space-between; align-items: baseline;
+    padding: 10px 0;
+    border-bottom: 1px solid var(--line-on-cream);
+  }
+  .contact-card .row:last-child { border-bottom: 0; }
+  .contact-card .row .key {
+    color: var(--ink-faint);
+    font-size: 11px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    font-weight: 700;
+  }
+  .contact-card .row .val { font-weight: 700; }
+
+  .faq-q {
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.02em;
+    color: var(--ink);
+    font-size: 15px;
+    margin-top: 24px;
+  }
+
+  /* ---- closing CTA strip (black, mirrors onboard1 again) ---- */
+  section.closer {
+    background: var(--black);
+    color: var(--white);
+    text-align: center;
+    padding: 88px 0;
+  }
+  section.closer h2 {
+    font-size: clamp(28px, 4vw, 44px);
+    text-transform: uppercase;
+    letter-spacing: -0.01em;
+    margin: 0 auto 28px;
+    max-width: 18ch;
+    font-weight: 700;
+    line-height: 1.1;
+  }
+  section.closer .btn-outline.light { display: inline-flex; }
+
+  /* ---- footer (black bookend) ---- */
+  footer {
+    background: var(--black);
+    color: rgba(255, 255, 255, 0.55);
+    padding: 40px 0 56px;
+    border-top: 1px solid var(--line-on-black);
+  }
+  footer .links {
+    margin-bottom: 14px;
+    display: flex; gap: 24px; flex-wrap: wrap; justify-content: center;
+  }
+  footer .links a {
+    color: rgba(255, 255, 255, 0.75);
+    font-size: 12px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    text-decoration: none;
+    font-weight: 600;
+  }
+  footer .links a:hover { color: #fff; }
+  footer .copy {
+    text-align: center;
+    font-size: 12px;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+  }
+</style>
+</head>
+<body>
+
+<nav class="top">
+  <div class="wrap">
+    <div class="brand">Dual Creator Cam</div>
+    <ul>
+      <li><a href="#features">Features</a></li>
+      <li><a href="#privacy">Privacy</a></li>
+      <li><a href="#support">Support</a></li>
+    </ul>
+  </div>
+</nav>
+
+<header class="hero">
+  <div class="wrap">
+    <div class="eyebrow">For iPhone · iOS 17 or later</div>
+    <h1>Vertical and horizontal video. One take.</h1>
+    <p class="tagline">Record 9:16 and 16:9 at the same time. Built for creators who post everywhere.</p>
+
+    <div class="cta-row">
+      <a class="btn-outline light" href="https://apps.apple.com/app/idYOUR_APP_ID" aria-label="Download on the App Store">
+        Download on the App Store
+      </a>
+      <span class="price"><strong>$9.99</strong> · One-time purchase</span>
+    </div>
+
+    <div class="meta">No subscriptions · No accounts · No tracking</div>
+  </div>
+</header>
+
+<section id="features" style="padding-bottom: 48px;">
+  <div class="wrap">
+    <h2 class="eyebrow">What it does</h2>
+    <h2 class="section-title">Built for creators who post everywhere.</h2>
+    <p class="lede">Stop reframing. Stop reshooting. Capture the moment once and walk away with two perfectly composed files.</p>
+
+    <div class="features">
+      <div class="feature">
+        <div class="num">01</div>
+        <h3>Record vertical and horizontal in the same take</h3>
+        <p>9:16 for Reels and Shorts. 16:9 for YouTube. Both files captured from the exact same moment.</p>
+      </div>
+      <div class="feature">
+        <div class="num">02</div>
+        <h3>Shoot in 4K at 60 frames per second</h3>
+        <p>Both files captured at the highest quality your device supports. No compromises for the convenience.</p>
+      </div>
+      <div class="feature">
+        <div class="num">03</div>
+        <h3>Pro controls in one tap</h3>
+        <p>Zoom presets, composition grid, start delay, quality picker. Everything you need, nothing you don't.</p>
+      </div>
+      <div class="feature">
+        <div class="num">04</div>
+        <h3>Every take saves to your Photos library</h3>
+        <p>Both finished files land in Photos automatically, ready to drop into your editor. No accounts. No cloud.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="how">
+  <div class="wrap">
+    <h2 class="eyebrow">How it works</h2>
+    <h2 class="section-title">Three steps, every time.</h2>
+    <p class="lede">Set up your shot, hit record, find both takes in your library. The whole loop fits in your hand.</p>
+
+    <div class="steps">
+      <div class="step">
+        <div class="num">Step 01</div>
+        <h3>Set your shot</h3>
+        <p>Pick your camera, your zoom, and your quality. Toggle the grid if you want it.</p>
+      </div>
+      <div class="step">
+        <div class="num">Step 02</div>
+        <h3>Tap record</h3>
+        <p>Both orientations capture together — 9:16 and 16:9 from the same moment.</p>
+      </div>
+      <div class="step">
+        <div class="num">Step 03</div>
+        <h3>Find it in Photos</h3>
+        <p>Two finished files in your library. Edit. Post. Done.</p>
+      </div>
+    </div>
+
+    <div class="req">
+      <div class="req-item"><div class="label">Device</div><div class="value">iPhone XS or later</div></div>
+      <div class="req-item"><div class="label">iOS</div><div class="value">17 or later</div></div>
+      <div class="req-item"><div class="label">Best results</div><div class="value">iPhone 12 or newer</div></div>
+    </div>
+  </div>
+</section>
+
+<section id="privacy" class="doc-section">
+  <div class="wrap">
+    <h2 class="eyebrow">Privacy policy</h2>
+    <h2 class="section-title">Collects nothing. By design.</h2>
+
+    <div class="panel">
+      <div class="updated">Last updated · April 2026</div>
+
+      <p>Dual Creator Cam ("the app") is a camera utility published by the developer. This document describes what the app does and does not collect.</p>
+
+      <h3>What the app collects</h3>
+      <p><strong>Nothing.</strong> The app does not collect, transmit, or store any personal data on remote servers. The app does not include analytics, advertising SDKs, third-party trackers, or crash reporting services that send data off the device.</p>
+
+      <h3>How recordings are stored</h3>
+      <p>Video files recorded by the app are temporarily stored in the app's local sandbox while a recording is in progress. When a recording finishes, the file is moved to your Photos library (with your permission). The temporary copy in the app's sandbox is then no longer needed and may be cleaned up by the system.</p>
+      <p>Recordings are never uploaded anywhere. They live on your device unless you share them through iOS share sheets, AirDrop, Files, or another app.</p>
+
+      <h3>Permissions</h3>
+      <table>
+        <thead><tr><th>Permission</th><th>Reason</th></tr></thead>
+        <tbody>
+          <tr><td>Camera</td><td>Required to capture video and photos.</td></tr>
+          <tr><td>Microphone</td><td>Required to record audio with your videos. Optional — if denied, recordings will be silent.</td></tr>
+          <tr><td>Photo Library (add-only)</td><td>Required to save finished recordings to your Photos library.</td></tr>
+        </tbody>
+      </table>
+      <p>You can change any of these in <strong>Settings &rarr; Dual Creator Cam</strong> at any time.</p>
+
+      <h3>Children's privacy</h3>
+      <p>The app is rated 4+ and does not knowingly collect any data about children or anyone else.</p>
+
+      <h3>Changes to this policy</h3>
+      <p>If this policy is ever updated, the new version will be published at this URL and the "Last updated" date above will be revised. Material changes will be highlighted in the app's release notes.</p>
+
+      <h3>Contact</h3>
+      <p>Questions about this policy can be sent to <a href="mailto:hello@dualcreatorcam.app">hello@dualcreatorcam.app</a>.</p>
+    </div>
+  </div>
+</section>
+
+<section id="support" class="doc-section" style="padding-top: 48px;">
+  <div class="wrap">
+    <h2 class="eyebrow">Support</h2>
+    <h2 class="section-title">Real questions, real answers.</h2>
+    <p class="lede">Email us with anything — bugs, feature requests, refund questions, or feedback. We read every message and reply within two business days.</p>
+
+    <div class="panel">
+      <h3>Get help</h3>
+
+      <div class="contact-card">
+        <div class="row"><span class="key">Email</span><span class="val"><a href="mailto:hello@dualcreatorcam.app">hello@dualcreatorcam.app</a></span></div>
+        <div class="row"><span class="key">Response time</span><span class="val">~2 business days</span></div>
+        <div class="row"><span class="key">Privacy</span><span class="val"><a href="#privacy">Read the policy</a></span></div>
+      </div>
+
+      <h3>Common questions</h3>
+
+      <p class="faq-q">Which iPhones support dual recording?</p>
+      <p>Any iPhone XS or newer running iOS 17 or later. iPhone 12 and newer give the best 4K dual-recording results.</p>
+
+      <p class="faq-q">Where do my recordings go?</p>
+      <p>Both files (9:16 vertical and 16:9 horizontal) save automatically to your Photos library when you stop recording. They live on your device — we never upload them anywhere.</p>
+
+      <p class="faq-q">Does the app work on iPad?</p>
+      <p>iPads with multi-cam support work. Most newer iPad Pro and iPad Air models qualify.</p>
+
+      <p class="faq-q">Why can't I record at 4K · 60 fps?</p>
+      <p>Some devices cap dual-camera capture at lower resolutions or frame rates depending on the active cameras. The in-app quality picker will only show options your current device supports.</p>
+
+      <p class="faq-q">I tapped record but only one file saved.</p>
+      <p>Check the recording mode — a swipe on the viewfinder cycles between Both, Vertical only, and Horizontal only. Make sure "Both" is selected.</p>
+
+      <p class="faq-q">How do I get a refund?</p>
+      <p>Refunds for App Store purchases are handled directly by Apple. Visit <a href="https://reportaproblem.apple.com/" target="_blank" rel="noopener">reportaproblem.apple.com</a> and select Dual Creator Cam from your purchase history.</p>
+
+      <p class="faq-q">Will there be subscriptions or in-app purchases?</p>
+      <p>No. Dual Creator Cam is a one-time purchase. No subscriptions, no in-app purchases, no ads.</p>
+    </div>
+  </div>
+</section>
+
+<section class="closer">
+  <div class="wrap">
+    <h2>Shoot once. Post everywhere.</h2>
+    <a class="btn-outline light" href="https://apps.apple.com/app/idYOUR_APP_ID">
+      Download on the App Store
+    </a>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <div class="links">
+      <a href="#features">Features</a>
+      <a href="#privacy">Privacy</a>
+      <a href="#support">Support</a>
+      <a href="mailto:hello@dualcreatorcam.app">Contact</a>
+    </div>
+    <div class="copy">&copy; 2026 Harrison Wheeler · Dual Creator Cam</div>
+  </div>
+</footer>
+
+</body>
+</html>
